@@ -19,11 +19,11 @@ class Solver:
         self.dictionary: Trie = Trie.load("dictionary.trie")
         self.positions_searched = 0
 
-    def solve_board(self, dimension: int):
+    def solve_board(self):
         start = perf_counter()
 
-        for i in range(dimension):
-            for j in range(dimension):
+        for i in range(self.board.BOARD_DIMENSION):
+            for j in range(self.board.BOARD_DIMENSION):
                 solver.find_words_from_position(i, j, "", [])
 
         finish = perf_counter()
@@ -88,5 +88,5 @@ if __name__ == "__main__":
     board = Board(5)
     solver = Solver(board, words=set())
 
-    solver.solve_board(board.BOARD_DIMENSION)
+    solver.solve_board()
     solver.print_results()
