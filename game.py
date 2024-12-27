@@ -12,40 +12,38 @@ class Game:
 
         self.board = None
         self.solutions = set()
-        self._run_menu()
 
-    def _run_menu(self):
+    def run(self):
         while self.board == None:
-            self._print_menu()
-            board_option = input()
+            self.__print_menu()
+            board_option = ""
 
-            if board_option not in {"1", "2"}:
-                continue
+            while board_option not in {"1", "2"}:
+                board_option = input(">>> ")
 
-            dimension = self._get_int("Enter board dimension:")
-            self._execute_option(board_option, dimension)
+            dimension = self.__get_int("Board dimension?")
+            self.__execute_option(board_option, dimension)
 
-        self._play_game()
+        self.__play_game()
 
-    def _print_menu(self):
+    def __print_menu(self):
         print("  1: Generate a new board")
         print("  2: Load a custom board")
-        print(">>>", end=" ")
 
-    def _execute_option(self, board_option, dimension):
+    def __execute_option(self, board_option, dimension):
         if board_option == "1":
-            self._generate_board(dimension)
+            self.__generate_board(dimension)
         else:
             print("  Enter the board, separating the die by spaces:")
-            self._load_board(dimension)
+            self.__load_board(dimension)
 
-    def _load_board(self, dim: int):
+    def __load_board(self, dim: int):
         self.board = Board(dim, True)
 
-    def _generate_board(self, dim: int):
+    def __generate_board(self, dim: int):
         self.board = Board(dim)
 
-    def _get_int(self, command: str) -> int:
+    def __get_int(self, command: str) -> int:
         num = input(f"  {command} ")
         while True:
             try:
@@ -59,29 +57,30 @@ class Game:
             except ValueError:
                 num = input(f"  Enter a whole number: ")
 
-    def _play_game(self):
-        timer = self._get_int("How many minutes will your game be?") * 60
+    def __play_game(self):
+        timer = self.__get_int("How many minutes will your game be?") * 60
 
         while timer > 0:
             print(self.board)
-            self._print_timer(timer)
+            self.__print_timer(timer)
 
             start_input = perf_counter()
-            word = timedInput(prompt=">>> ", timeout=1)
+            word, _ = timedInput(prompt=">>> ", timeout=1)
             finish_input = perf_counter()
 
-            self.solutions.add(word)
+            if word:
+                self.solutions.add(word.upper())
+
             timer -= finish_input - start_input
+            self.__clear_board()
 
-            self._clear_board()
+        self.__print_results()
 
-        self._print_solution()
-
-    def _clear_board(self):
-        for _ in range(self.board.BOARD_DIM + 5):
+    def __clear_board(self):
+        for _ in range(self.board.BOARD_DIM + 6):
             print(CLEAR_LINE, end="")
 
-    def _print_timer(self, timer):
+    def __print_timer(self, timer):
         mins_remaining = int(timer // 60)
         secs_remaining = int(timer % 60)
 
@@ -90,11 +89,18 @@ class Game:
 
         print(f"{mins_remaining}:{secs_remaining}")
 
-    def _print_solution(self):
+    def __print_results(self):
         solver = Solver(self.board, words=set())
         solver.solve_board()
-        solver.print_results()
+
+        print(self.board)
+        print("You got these words:")
+        print(f"  {solver.words.intersection(self.solutions)}")
+
+        print("You missed these words:")
+        print(f"  {solver.words.difference(self.solutions)}")
 
 
 if __name__ == "__main__":
-    Game()
+    game = Game()
+    game.run()

@@ -2,7 +2,7 @@ from random import choice
 
 
 class Die:
-    bag = [
+    bag = (
         ("T", "O", "E", "S", "S", "I"),
         ("A", "S", "P", "F", "F", "K"),
         ("N", "U", "I", "H", "M", "QU"),
@@ -19,7 +19,7 @@ class Die:
         ("O", "W", "T", "O", "A", "T"),
         ("A", "E", "A", "N", "E", "G"),
         ("E", "I", "U", "N", "E", "S"),
-    ]
+    )
 
     def __init__(self):
         self.die = choice(self.bag)

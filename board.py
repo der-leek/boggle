@@ -8,7 +8,7 @@ class Board:
 
         if load_board:
             self.board = []
-            self.load_board()
+            self.__load_board()
         else:
             self.board = [
                 [choice(Die().die) for _ in range(self.BOARD_DIM)]
@@ -16,12 +16,15 @@ class Board:
             ]
 
     def __str__(self):
-        header_footer = self._generate_header_footer()
-        rows = [self._format_row(row) for row in self.board]
-        board_string = header_footer + "\n".join(rows) + "\n" + header_footer
+        header_footer = self.__generate_header_footer()
+        rows = [self.__format_row(row) for row in self.board]
+        board_string = "\n" + header_footer + "\n".join(rows) + "\n" + header_footer
         return board_string
 
-    def load_board(self):
+    def get_letter(self, row: int, col: int) -> str:
+        return self.board[row][col]
+
+    def __load_board(self):
         while True:
             row = input().split()
 
@@ -34,16 +37,8 @@ class Board:
             if len(self.board) == self.BOARD_DIM:
                 break
 
-    def get_letter(self, row: int, col: int) -> str:
-        return self.board[row][col]
-
-    def _generate_header_footer(self) -> str:
+    def __generate_header_footer(self) -> str:
         return "-" * (self.BOARD_DIM * 3 + 2) + "\n"
 
-    def _format_row(self, row) -> str:
+    def __format_row(self, row) -> str:
         return "|" + "".join(f" {col} " for col in row) + "|"
-
-
-if __name__ == "__main__":
-    board = Board(5, True)
-    print(board)
