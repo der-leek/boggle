@@ -9,8 +9,8 @@ class Solver:
         level=logging.DEBUG,
         format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
-        # filemode="w",
-        # filename="solver.log",
+        filemode="w",
+        filename="solver.log",
     )
 
     def __init__(self, board: Board, words: set):

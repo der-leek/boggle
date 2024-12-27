@@ -61,18 +61,18 @@ class Game:
         timer = self.__get_int("How many minutes will your game be?") * 60
 
         while timer > 0:
+            start_input = perf_counter()
+
             print(self.board)
             self.__print_timer(timer)
-
-            start_input = perf_counter()
             word, _ = timedInput(prompt=">>> ", timeout=1)
-            finish_input = perf_counter()
 
             if word:
                 self.solutions.add(word.upper())
 
-            timer -= finish_input - start_input
             self.__clear_board()
+            finish_input = perf_counter()
+            timer -= finish_input - start_input
 
         self.__print_results()
 
