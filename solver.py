@@ -52,7 +52,7 @@ class Solver:
         path.remove((row, col))
 
     def __get_neighbors(self, row: int, col: int):
-        directions = [
+        directions = (
             (1, 0),
             (1, 1),
             (0, 1),
@@ -61,9 +61,9 @@ class Solver:
             (-1, -1),
             (0, -1),
             (1, -1),
-        ]
-        for dr, dc in directions:
-            yield row + dr, col + dc
+        )
+        for new_row, new_col in directions:
+            yield row + new_row, col + new_col
 
     def __out_of_bounds(self, row: int, col: int, dimension: int) -> bool:
         return (

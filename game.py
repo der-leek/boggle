@@ -80,7 +80,7 @@ class Game:
         for _ in range(self.board.BOARD_DIM + 6):
             print(CLEAR_LINE, end="")
 
-    def __print_timer(self, timer):
+    def __print_timer(self, timer: float):
         mins_remaining = int(timer // 60)
         secs_remaining = int(timer % 60)
 
