@@ -49,7 +49,7 @@ class Solver:
         for new_row, new_col in self.__get_neighbors(row, col):
             self.__find_words_from_position(new_row, new_col, word, path)
 
-        path.remove((row, col))
+        path.pop()
 
     def __get_neighbors(self, row: int, col: int):
         directions = (

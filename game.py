@@ -50,12 +50,14 @@ class Game:
                 num = int(num)
 
                 if num > 0:
+                    if num > 25:
+                        raise ValueError("Choose a smaller number:")
                     return num
                 else:
-                    raise ValueError
+                    raise ValueError("Enter a whole number:")
 
-            except ValueError:
-                num = input(f"  Enter a whole number: ")
+            except ValueError as e:
+                num = input(f"  {e} ")
 
     def __play_game(self):
         timer = self.__get_int("How many minutes will your game be?") * 60
@@ -65,7 +67,7 @@ class Game:
 
             print(self.board)
             self.__print_timer(timer)
-            word, _ = timedInput(prompt=">>> ", timeout=1)
+            word, _ = timedInput(prompt=">>> ", timeout=5)
 
             if word:
                 self.solutions.add(word.upper())
