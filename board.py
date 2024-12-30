@@ -1,3 +1,4 @@
+import numpy as np
 from die import Die
 from random import choice
 
@@ -23,6 +24,9 @@ class Board:
 
     def get_letter(self, row: int, col: int) -> str:
         return self.board[row][col]
+
+    def rotate_board(self):
+        self.board = np.rot90(self.board, axes=(1,0))
 
     def __load_board(self):
         while True:

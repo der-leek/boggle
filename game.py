@@ -61,26 +61,20 @@ class Game:
 
     def __play_game(self):
         timer = self.__get_int("How many minutes will your game be?") * 60
+        print("\n  (Enter 'r' to rotate the board clockwise)")
 
         while timer > 0:
             start_input = perf_counter()
 
             print(self.board)
             self.__print_timer(timer)
-            word, _ = timedInput(prompt=">>> ", timeout=5)
-
-            if word:
-                self.solutions.add(word.upper())
-
+            word, _ = timedInput(prompt=">>> ", timeout=2)
+            self.__process_word(word)
             self.__clear_board()
             finish_input = perf_counter()
             timer -= finish_input - start_input
 
         self.__print_results()
-
-    def __clear_board(self):
-        for _ in range(self.board.BOARD_DIM + 6):
-            print(CLEAR_LINE, end="")
 
     def __print_timer(self, timer: float):
         mins_remaining = int(timer // 60)
@@ -90,6 +84,17 @@ class Game:
             secs_remaining = f"0{secs_remaining}"
 
         print(f"{mins_remaining}:{secs_remaining}")
+
+    def __process_word(self, word: str):
+        if word:
+            if word.lower() == "r":
+                self.board.rotate_board()
+            else:
+                self.solutions.add(word.upper())
+
+    def __clear_board(self):
+        for _ in range(self.board.BOARD_DIM + 6):
+            print(CLEAR_LINE, end="")
 
     def __print_results(self):
         solver = Solver(self.board, words=set())
